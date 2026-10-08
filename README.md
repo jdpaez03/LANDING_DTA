@@ -92,9 +92,9 @@ Copy comes from `context/ACQUA_CONTEXT.md`. In short:
 
 ## Fonts
 
-The brand font is **Brandon Grotesque**, but it is not used yet. The files in `context/FONT/` are a trial version: personal use only, and missing Spanish accents. That folder is git-ignored. The site uses Cormorant Garamond (headings) and Jost (text), the same pair as the brochure.
+The whole site uses **Brandon Grotesque**, the only typeface, for headings, text, buttons and form. It loads from the Adobe Fonts kit `gdo1hpj` (`<link>` in `frontend/index.html`). The kit has weights **400 and 700** (with italics) only, so the CSS uses just those. To get more weights (e.g. Light 300 or Medium 500), add them to the kit in Adobe Fonts. The URL stays the same. If the kit is restricted to certain domains, add the production domain in Adobe Fonts before deploying.
 
-To switch to Brandon Grotesque, get a web license (HvD Fonts, MyFonts or Adobe Fonts), put the `.woff2` files in `frontend/public/fonts/` and add `@font-face` rules. The CSS font stack already lists `'Brandon Grotesque'` first.
+The files in `context/FONT/` are an HvD trial version (no commercial use, no Spanish accents). Don't use them. That folder is git-ignored.
 
 ## Pending
 
