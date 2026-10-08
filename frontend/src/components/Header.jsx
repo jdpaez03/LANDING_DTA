@@ -1,4 +1,4 @@
-import Isotipo from './Isotipo.jsx'
+import Logo from './Logo.jsx'
 
 const NAV = [
   ['#club', 'Club Sonoma'],
@@ -11,11 +11,7 @@ export default function Header() {
   return (
     <header className="header">
       <a href="#top" className="brand">
-        <Isotipo size={34} />
-        <span className="brand-text">
-          <small>TORRE</small>
-          <strong>ACQUA</strong>
-        </span>
+        <Logo variant="horizontal" height={38} />
       </a>
       <nav className="nav">
         {NAV.map(([href, label]) => <a key={href} href={href}>{label}</a>)}

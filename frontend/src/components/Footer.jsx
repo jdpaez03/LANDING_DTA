@@ -1,10 +1,10 @@
 import { LEGAL } from '../content.js'
-import Isotipo from './Isotipo.jsx'
+import Logo from './Logo.jsx'
 
 export default function Footer() {
   return (
     <footer className="footer">
-      <Isotipo size={40} />
+      <Logo variant="isotipo" height={56} />
       <p>Torre ACQUA · Sonoma Club &amp; Residences</p>
       <p className="muted">{LEGAL}</p>
       <p className="muted">© {new Date().getFullYear()}</p>

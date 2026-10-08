@@ -90,6 +90,15 @@ Copy comes from `context/ACQUA_CONTEXT.md`. In short:
 - Renders and areas are illustrative. Keep the legal notice in the footer.
 - Brand palette: `#043447` `#2B5C63` `#69ACB7` `#098B6A` `#CE9930` `#FFFFF8`.
 
+## Logo
+
+The logo is never typed as text. It is the official vector extracted from the brandbook (`context/BRANDBOOK ACQUA_JULIO.pdf`, p.5):
+
+- `frontend/src/components/logoPaths.js`: path data used by `<Logo variant="principal|horizontal|isotipo" />`, which takes its color from CSS `color`.
+- `frontend/public/brand-*.svg`: the same three versions as standalone navy SVGs (`brand-isotipo.svg` is the favicon).
+
+If the agency provides the original logo files (SVG/AI), replace these with them.
+
 ## Fonts
 
 The whole site uses **Brandon Grotesque**, the only typeface, for headings, text, buttons and form. It loads from the Adobe Fonts kit `gdo1hpj` (`<link>` in `frontend/index.html`). The kit has weights **400 and 700** (with italics) only, so the CSS uses just those. To get more weights (e.g. Light 300 or Medium 500), add them to the kit in Adobe Fonts. The URL stays the same. If the kit is restricted to certain domains, add the production domain in Adobe Fonts before deploying.
