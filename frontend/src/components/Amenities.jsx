@@ -1,4 +1,4 @@
-import { AMENITIES } from '../content.js'
+import { AMENITIES, RENDERS } from '../content.js'
 import DropImage from './DropImage.jsx'
 
 export default function Amenities() {
@@ -9,7 +9,7 @@ export default function Amenities() {
           <p className="kicker">1,656 m² de amenidades propias</p>
           <h2 className="title">Espacio <em>en tu vida.</em></h2>
         </div>
-        <DropImage label="Render amenidades N41" />
+        <DropImage file={RENDERS.lobby.file} alt={RENDERS.lobby.caption} />
       </div>
       <div className="columns">
         {AMENITIES.map((a) => (

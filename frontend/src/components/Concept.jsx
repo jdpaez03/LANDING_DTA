@@ -1,3 +1,4 @@
+import { RENDERS } from '../content.js'
 import DropImage from './DropImage.jsx'
 
 export default function Concept() {
@@ -12,7 +13,7 @@ export default function Concept() {
         </p>
         <p className="quote">Acqua no es solo un lugar para vivir. Es una forma de vivir.</p>
       </div>
-      <DropImage label="Render fachada" />
+      <DropImage file={RENDERS.torre.file} alt={RENDERS.torre.caption} />
     </section>
   )
 }

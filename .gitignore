@@ -13,6 +13,9 @@ dist/
 # Trial brand fonts (personal use only, not licensed for the site)
 context/FONT/
 
+# Original renders (~130 MB PNG). Web versions live in frontend/public/img (scripts/optimize_images.py)
+context/RENDERS/
+
 # OS / editor
 .DS_Store
 Thumbs.db

@@ -3,6 +3,7 @@ import Logo from './Logo.jsx'
 const NAV = [
   ['#club', 'Club Sonoma'],
   ['#amenidades', 'Amenidades'],
+  ['#galeria', 'Galería'],
   ['#residencias', 'Residencias'],
   ['#ubicacion', 'Ubicación'],
 ]

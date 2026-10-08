@@ -4,6 +4,7 @@ import Concept from './components/Concept.jsx'
 import Highlights from './components/Highlights.jsx'
 import Club from './components/Club.jsx'
 import Amenities from './components/Amenities.jsx'
+import Gallery from './components/Gallery.jsx'
 import Typologies from './components/Typologies.jsx'
 import Location from './components/Location.jsx'
 import Developers from './components/Developers.jsx'
@@ -20,6 +21,7 @@ export default function App() {
         <Concept />
         <Club />
         <Amenities />
+        <Gallery />
         <Typologies />
         <Location />
         <Developers />
