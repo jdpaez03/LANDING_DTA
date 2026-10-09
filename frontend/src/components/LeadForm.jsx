@@ -1,5 +1,5 @@
 import { useEffect, useId, useState } from 'react'
-import { INTENTS, PRIVACY_URL, TYPOLOGIES } from '../content.js'
+import { INTENTS, PRIVACY_URL, PRIVACY_VERSION, TYPOLOGIES } from '../content.js'
 import { track } from '../track.js'
 import { trackWhatsapp, whatsappUrl } from '../whatsapp.js'
 
@@ -67,6 +67,7 @@ export default function LeadForm({ variant = 'full', location }) {
         interest: interest || null,
         message: form.message.trim() || null,
         privacy_accepted: form.privacy,
+        privacy_version: PRIVACY_VERSION,
         website: form.website || null,
         form_location: location,
         ...readUtm(),
@@ -227,7 +228,7 @@ export default function LeadForm({ variant = 'full', location }) {
         <input id={id('privacy')} type="checkbox" name="privacy" checked={form.privacy} onChange={update} required />
         <span>
           Acepto el{' '}
-          {PRIVACY_URL ? <a href={PRIVACY_URL} target="_blank" rel="noreferrer">aviso de privacidad</a> : 'aviso de privacidad'}
+          <a href={PRIVACY_URL} target="_blank" rel="noreferrer">aviso de privacidad</a>
           {' '}y que un asesor me contacte por WhatsApp.
         </span>
       </label>

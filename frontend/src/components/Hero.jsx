@@ -1,4 +1,4 @@
-import { RENDERS } from '../content.js'
+import { LEGAL_URL, PRELIMINARY_SHORT, RENDERS } from '../content.js'
 import { requestLead } from '../track.js'
 import Picture from './Picture.jsx'
 
@@ -15,6 +15,7 @@ export default function Hero() {
           <a href="#contacto" className="btn btn-light" onClick={() => requestLead({ intent: 'visita' })}>Agendar visita privada</a>
           <a href="#contacto" className="link link-light" onClick={() => requestLead({ intent: 'precios' })}>Recibir precios y planos</a>
         </div>
+        <p className="hero-note"><a href={LEGAL_URL}>{PRELIMINARY_SHORT}</a></p>
       </div>
       <a href="#origen" className="hero-scroll" aria-label="Continuar">Desliza</a>
     </section>

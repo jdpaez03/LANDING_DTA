@@ -9,8 +9,23 @@ export const CONTACT = {
   whatsappMessage: 'Hola, me interesa Torre Acqua. ¿Me pueden compartir disponibilidad?',
 }
 
-// Aviso de privacidad (required by LFPDPPP before collecting personal data). null = plain text, no link.
-export const PRIVACY_URL = null
+// Legal pages (simple path routing in App.jsx). The privacy notice is required by the LFPDPPP
+// (DOF 20-mar-2025, art. 15) before collecting personal data.
+export const PRIVACY_URL = '/aviso-de-privacidad'
+export const LEGAL_URL = '/aviso-legal'
+
+// Version of the privacy notice; stored with every lead as proof of which text was accepted.
+// Bump it whenever the notice text changes.
+export const PRIVACY_VERSION = '2026-10-08-preliminar'
+export const PRIVACY_UPDATED = '8 de octubre de 2026'
+
+// Data controller for the privacy notice. null values render as a highlighted "[Pendiente: …]"
+// so the draft cannot be mistaken for a final text. Fill in with the legal team.
+export const DATA_CONTROLLER = {
+  name: null, // razón social del responsable
+  address: null, // domicilio fiscal o para oír y recibir notificaciones
+  privacyEmail: null, // correo para derechos ARCO y revocación
+}
 
 // Sales gallery / showroom. The location block shows it only when set.
 export const SHOWROOM = null // e.g. { address: '…', hours: 'Lunes a sábado, 10:00 a 19:00', mapsUrl: 'https://…' }
@@ -97,6 +112,25 @@ export const CLUB_MAP = {
   ],
 }
 
+// Sonoma community timeline — from the sales brochure, p.8 "Una comunidad viva"
+// (OneDrive: PAGA/Proyectos/Sonoma/Acqua/Torre Acqua · Brochure de Ventas.pdf).
+// status: sold | building | current | future
+export const COMMUNITY = {
+  title: 'No compras una promesa. Llegas a un lugar vivo.',
+  lede: 'Desde 2012, cinco torres han dado forma a Sonoma. Familias que ya disfrutan el club, los senderos y la vida en comunidad. Acqua es la sexta, y la más alta.',
+  closing: 'Cuatro torres vendidas en su totalidad. La quinta, en camino.',
+  towers: [
+    { name: 'Vento', year: 2014, status: 'sold', note: 'Vendida 100%' },
+    { name: 'Alberi', year: 2016, status: 'sold', note: 'Vendida 100%' },
+    { name: 'Foresta', year: 2018, status: 'sold', note: 'Vendida 100%' },
+    { name: 'Pietra', year: 2024, status: 'sold', note: 'Vendida 100%' },
+    { name: 'Fiori', year: 2026, status: 'building', note: 'En obra' },
+    { name: 'Acqua', year: 2029, status: 'current', note: 'Tu turno' },
+    { name: 'Terra', year: 2032, status: 'future', note: 'A futuro' },
+    { name: 'Stella', year: 2035, status: 'future', note: 'A futuro' },
+  ],
+}
+
 export const GALLERY = [
   ...['portada', 'torre', 'nocturna', 'vista', 'lobby', 'motorLobby'].map((k) => RENDERS[k]),
   AMENITY_RENDERS.gameroom, AMENITY_RENDERS.sportsbar, AMENITY_RENDERS.cabanas,
@@ -180,12 +214,14 @@ export const DEVELOPERS = [
   {
     name: 'PAGA Desarrollos',
     logo: '/logos/paga-desarrollos.png',
+    url: 'https://pagadesarrollos.com',
     motto: 'Veinticinco años desarrollando valor.',
     text: 'Desde 2001, 34 desarrollos en México y Estados Unidos, incluyendo South Padre Island, Texas.',
   },
   {
     name: 'Grupo DAGS',
     logo: '/logos/grupo-dags.svg', // light-background variant made from context/LOGOS
+    url: 'https://grupodags.com',
     motto: 'Trascender construyendo con valor.',
     text: 'Desarrollo, construcción e inversión con proyectos en Nuevo León, Coahuila y Nayarit.',
   },
@@ -193,3 +229,8 @@ export const DEVELOPERS = [
 
 export const LEGAL =
   'Imágenes, renders y planos ilustrativos basados en el diseño esquemático; sujetos a cambio sin previo aviso. Este material es informativo y no constituye una oferta. PAGA Desarrollos · Grupo DAGS.'
+
+// Shown in the hero and the footer: the whole site is preliminary and conceptual
+export const PRELIMINARY_SHORT = 'Versión preliminar. Contenido conceptual sujeto a cambios.'
+export const PRELIMINARY_LONG =
+  'Sitio en versión preliminar con fines informativos. Torre Acqua se encuentra en etapa de diseño; la información, imágenes, renders, planos, áreas, amenidades y fechas son conceptuales e ilustrativos y pueden cambiar sin previo aviso. Nada de lo publicado constituye una oferta, promesa o contrato.'

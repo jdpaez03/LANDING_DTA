@@ -23,6 +23,7 @@ class Lead(Base):
     message: Mapped[str | None] = mapped_column(Text, nullable=True)
     form_location: Mapped[str | None] = mapped_column(String(30), nullable=True)
     privacy_accepted: Mapped[bool] = mapped_column(Boolean, default=False)
+    privacy_version: Mapped[str | None] = mapped_column(String(40), nullable=True)
 
     # Step 2 (optional qualification)
     purpose: Mapped[str | None] = mapped_column(String(20), nullable=True)  # vivir | invertir

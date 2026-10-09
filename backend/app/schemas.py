@@ -16,6 +16,8 @@ class LeadCreate(BaseModel):
     form_location: str | None = Field(default=None, max_length=30)
     # Consent to the aviso de privacidad is mandatory
     privacy_accepted: Literal[True]
+    # Which version of the aviso de privacidad was accepted (proof of consent)
+    privacy_version: str | None = Field(default=None, max_length=40)
     utm_source: str | None = Field(default=None, max_length=100)
     utm_medium: str | None = Field(default=None, max_length=100)
     utm_campaign: str | None = Field(default=None, max_length=100)

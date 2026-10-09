@@ -1,6 +1,6 @@
 import { DEVELOPERS } from '../content.js'
 
-// Two independent developers, each with its own block and logo, split by a gold rule
+// Two independent developers, each with its own block and logo (linked to its site), split by a gold rule
 export default function Developers() {
   return (
     <section className="developers">
@@ -9,7 +9,9 @@ export default function Developers() {
         {DEVELOPERS.map((d) => (
           <article key={d.name} className="dev">
             <h3 className="dev-logo">
-              <img src={d.logo} alt={d.name} loading="lazy" />
+              <a href={d.url} target="_blank" rel="noreferrer" aria-label={`${d.name} (abre su sitio en otra pestaña)`}>
+                <img src={d.logo} alt={d.name} loading="lazy" />
+              </a>
             </h3>
             <p className="motto">{d.motto}</p>
             <p className="dev-text">{d.text}</p>

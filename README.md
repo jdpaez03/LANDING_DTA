@@ -1,6 +1,6 @@
 # LANDING_DTA — Torre Acqua
 
-Lead-capture landing page for **Torre Acqua · Sonoma Club & Residences** (Monterrey, N.L.), by PAGA Desarrollos and Grupo DAGS.
+Lead-capture landing page for **Torre Acqua · Sonoma Club & Residences** (Monterrey, N.L.), by PAGA Desarrollos and Grupo DAGS. **Status: prototype.**
 
 ## Stack
 
@@ -50,6 +50,18 @@ Immersive scenes (a render pinned full screen while short text scrolls over it) 
 | Preguntas / Contacto | `Faq.jsx`, `Contact.jsx` | FAQ and the two-step lead form |
 
 Shared pieces: `Scene.jsx` (pinned scene, optional render per beat), `Header.jsx` (transparent over dark areas, solid over light ones), `FloorIndicator.jsx` (PB → N50 counter while scrolling, desktop), `MobileBar.jsx` (fixed CTA bar on phones).
+
+## Legal pages
+
+| Path | Component | Content |
+|---|---|---|
+| `/aviso-de-privacidad` | `components/legal/PrivacyNotice.jsx` | Aviso de privacidad integral, structured on art. 15 of the LFPDPPP (DOF 20-mar-2025; authority: Secretaría Anticorrupción y Buen Gobierno) |
+| `/aviso-legal` | `components/legal/LegalNotice.jsx` | The site is preliminary and conceptual; images, plans, areas and dates are illustrative; not an offer; club, brands, third-party links |
+
+- Both are **drafts for legal review**. Missing facts come from `DATA_CONTROLLER` in `content.js` (company name, address, privacy email) and render as highlighted `[Pendiente: …]` until filled in.
+- Every lead stores `privacy_version` (`PRIVACY_VERSION` in `content.js`). Bump it whenever the notice text changes.
+- The hero shows a short "versión preliminar" note and the footer carries the long disclaimer (`PRELIMINARY_SHORT`, `PRELIMINARY_LONG`).
+- Routing is a plain path check in `App.jsx`. Vite serves these paths in development; in production the web server must fall back to `index.html` (nginx: `try_files $uri /index.html;`).
 
 ## Run locally
 
@@ -127,7 +139,7 @@ Events pushed to `window.dataLayer` (`frontend/src/track.js`):
 - `lead_qualified`: step 2 submitted.
 - `whatsapp_click`: a WhatsApp link was tapped, with `location`.
 
-Add a Google Tag Manager container to `frontend/index.html` and trigger Meta Pixel / GA4 conversions from these events.
+No tag manager is installed: the site is a prototype and Google Tag Manager is not planned for now. The events are harmless without it and can feed whatever analytics tool is chosen later.
 
 Leads are stored in `backend/leads.db` (ignored by git). Tables are created on startup; there are no migrations yet, so after a model change you must delete `leads.db` locally (consider Alembic before production).
 
@@ -182,7 +194,9 @@ The files in `context/FONT/` are an HvD trial version (no commercial use, no Spa
 ## Pending
 
 - Advisor contact details (phone / WhatsApp / email).
-- Aviso de privacidad (URL), showroom address/hours, Google Tag Manager / Meta Pixel IDs.
+- Legal review of `/aviso-de-privacidad` and `/aviso-legal`, and the data for `DATA_CONTROLLER` (razón social, domicilio, correo de privacidad). Also check advertising rules for housing sales (e.g. NOM-247-SE-2021) before going live.
+- Advisor phone/WhatsApp, email and showroom hours (being obtained).
+- pagadesarrollos.com returned 403 Forbidden on 2026-10-08; the PAGA logo links there.
 - Mini golf on the club map, if confirmed (top right of the aerial photo).
 - Higher-resolution floor plans (current ones are ~360–960 px wide).
 - Lead notification (email or CRM).
