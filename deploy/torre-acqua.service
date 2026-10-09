@@ -1,0 +1,17 @@
+# systemd *user* service for the Torre Acqua preview (runs as the `atlas` user, no root needed).
+# Installed by deploy/deploy.sh into ~/.config/systemd/user/.
+# Listens only on localhost:8100; Tailscale Funnel publishes it over HTTPS.
+[Unit]
+Description=Torre Acqua landing (preview)
+After=network-online.target
+
+[Service]
+WorkingDirectory=%h/torre-acqua/backend
+# PREVIEW_USER, PREVIEW_PASSWORD, STATIC_DIR, DATABASE_URL live here (created once, not in git)
+EnvironmentFile=%h/torre-acqua/backend/.env
+ExecStart=%h/torre-acqua/backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8100 --proxy-headers
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

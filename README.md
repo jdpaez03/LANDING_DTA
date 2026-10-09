@@ -51,6 +51,13 @@ Immersive scenes (a render pinned full screen while short text scrolls over it) 
 
 Shared pieces: `Scene.jsx` (pinned scene, optional render per beat), `Header.jsx` (transparent over dark areas, solid over light ones), `FloorIndicator.jsx` (PB → N50 counter while scrolling, desktop), `MobileBar.jsx` (fixed CTA bar on phones).
 
+## Preview deployment
+
+A private preview runs on the Linux laptop behind Tailscale Funnel with username and password:
+**https://atlas.tail642bf8.ts.net:10000/** (credentials only in the server's `.env`). In production mode FastAPI
+serves the built site and the API on one port (`STATIC_DIR`) and asks for HTTP Basic auth
+(`PREVIEW_USER` / `PREVIEW_PASSWORD`). Deploy with `bash deploy/deploy.sh`; details in [`deploy/README.md`](deploy/README.md).
+
 ## Legal pages
 
 | Path | Component | Content |
@@ -200,4 +207,4 @@ The files in `context/FONT/` are an HvD trial version (no commercial use, no Spa
 - Mini golf on the club map, if confirmed (top right of the aerial photo).
 - Higher-resolution floor plans (current ones are ~360–960 px wide).
 - Lead notification (email or CRM).
-- Linux deployment: nginx serving `frontend/dist`, uvicorn under systemd, Postgres via `DATABASE_URL`, and `CORS_ORIGINS` set to the production domain.
+- For real campaigns: move from the laptop preview to a stable host (own domain, Postgres via `DATABASE_URL`).
