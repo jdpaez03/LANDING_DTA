@@ -13,7 +13,7 @@ export default function Residences() {
   return (
     <section id="residencias" className="residences">
       <div className="residences-head">
-        <h2 className="title">Una residencia para cada etapa.</h2>
+        <h2 className="title">Seis maneras de vivir Acqua.</h2>
         <p className="residences-lede">De 2 recámaras a penthouse.</p>
       </div>
 
