@@ -32,7 +32,7 @@ Documento de referencia para construir la landing de captación de leads. Resume
 ## 3. Concepto y narrativa
 
 - **Origen de la marca:** "Hay lugares que no solo se habitan, se sienten. ACQUA nació del agua: de su calma, su claridad, su profundidad."
-- **La torre:** la más alta de Sonoma. Nace del bosque: base de celosías de madera iluminada y corona con vistas abiertas al cerro y a la ciudad.
+- **La torre:** la más alta de Sonoma. Se eleva con calma: base de celosías de madera iluminada y corona con vistas abiertas al cerro y a la ciudad.
 - **Sonoma:** no es solo un desarrollo, es un club de vida. Una comunidad que ya existe (desde 2012): Vento, Alberi, Foresta y Pietra construidas y habitadas; Fiori en obra; Acqua es el siguiente capítulo.
 - **Diferenciador principal:** el único master plan de Monterrey con un club privado dentro, y la acción del club incluida con tu residencia. "Una sola compra, dos patrimonios."
 
@@ -128,9 +128,9 @@ Atributos comunes: terraza en cada residencia, recámaras con baño completo, sa
 - El único master plan de Monterrey con un club privado dentro.
 - El club, en tu casa.
 - Tu residencia incluye la acción del Club Sonoma.
-- Una torre que nace del bosque.
+- Arquitectura que se eleva con calma.
 - Espacio en tu vida.
-- Una residencia para cada etapa.
+- Seis formas de vivir Acqua.
 - Acqua no es solo un lugar para vivir. Es una forma de vivir.
 
 ---

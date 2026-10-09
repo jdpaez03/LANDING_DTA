@@ -21,3 +21,7 @@ context/RENDERS/
 Thumbs.db
 .vscode/
 .idea/
+
+# Original amenity and club images (large PNG). Web versions live in frontend/public/img
+context/AMENIDADES/
+context/CLUB/

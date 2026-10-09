@@ -1,22 +1,22 @@
 import { RENDERS } from '../content.js'
-import Logo from './Logo.jsx'
+import { requestLead } from '../track.js'
 import Picture from './Picture.jsx'
 
+// Full-screen opening: the whole tower at dusk against the Sierra Madre, headline in ivory over the dark hillside
 export default function Hero() {
   return (
     <section id="top" className="hero">
-      <Picture file={RENDERS.nocturna.file} alt="" className="hero-bg" eager />
-      <div className="hero-inner">
-        <h1 className="hero-logo">
-          <Logo variant="principal" height={260} />
-        </h1>
-        <p className="tagline">La forma más pura de vivir.</p>
-        <p className="hero-sub">Cincuenta niveles al pie de la Sierra Madre · Sonoma Club &amp; Residences, Monterrey</p>
-        <div className="hero-ctas">
-          <a href="#contacto" className="btn btn-primary">Quiero más información</a>
-          <a href="#residencias" className="btn btn-ghost">Ver residencias</a>
+      <Picture file={RENDERS.portada.file} alt="Torre Acqua al atardecer, al pie de la Sierra Madre, junto a las torres de Sonoma" sizes="100vw" eager priority="high" className="hero-img" />
+      <div className="hero-shade" aria-hidden="true" />
+      <div className="hero-text">
+        <h1 className="hero-title">La forma más pura de vivir.</h1>
+        <p className="hero-lede">Cincuenta niveles al pie de la Sierra Madre. Monterrey.</p>
+        <div className="hero-actions">
+          <a href="#contacto" className="btn btn-light" onClick={() => requestLead({ intent: 'visita' })}>Agendar visita privada</a>
+          <a href="#contacto" className="link link-light" onClick={() => requestLead({ intent: 'precios' })}>Recibir precios y planos</a>
         </div>
       </div>
+      <a href="#origen" className="hero-scroll" aria-label="Continuar">Desliza</a>
     </section>
   )
 }

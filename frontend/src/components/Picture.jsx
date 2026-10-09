@@ -3,7 +3,8 @@ const WIDTHS = [800, 1600, 2400]
 
 export const renderSrc = (file, w = 1600) => `/img/renders/${file}-${w}.webp`
 
-export default function Picture({ file, alt, sizes = '100vw', className, eager = false }) {
+// `priority`: 'high' for the hero, 'low' for images that should load early without competing with it
+export default function Picture({ file, alt, sizes = '100vw', className, eager = false, priority }) {
   return (
     <img
       className={className}
@@ -12,6 +13,7 @@ export default function Picture({ file, alt, sizes = '100vw', className, eager =
       sizes={sizes}
       alt={alt}
       loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={priority}
       decoding="async"
     />
   )
