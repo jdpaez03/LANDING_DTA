@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { COMMUNITY } from '../content.js'
-import { requestLead } from '../track.js'
 
 // "Una comunidad viva": the towers of Sonoma on a timeline. When the section scrolls into view
 // the line fills tower by tower and stops at Acqua ("Tu turno").
@@ -50,7 +49,6 @@ export default function Community() {
 
       <div className="community-foot">
         <p className="community-closing">{COMMUNITY.closing}</p>
-        <a href="#contacto" className="btn btn-primary" onClick={() => requestLead({ intent: 'visita' })}>Conocer Sonoma</a>
       </div>
     </section>
   )

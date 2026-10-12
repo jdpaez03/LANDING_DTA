@@ -3,7 +3,7 @@ import { DEVELOPERS } from '../content.js'
 // Two independent developers, each with its own block and logo (linked to its site), split by a gold rule
 export default function Developers() {
   return (
-    <section className="developers">
+    <section id="equipo" className="developers">
       <h2 className="title">La suma de dos grandes desarrolladores. Una sola visión.</h2>
       <div className="dev-pair">
         {DEVELOPERS.map((d) => (

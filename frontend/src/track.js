@@ -5,8 +5,7 @@ export function track(event, data = {}) {
   window.dataLayer.push({ event, ...data })
 }
 
-// Any call to action can open a lead form with an intent and/or typology preselected.
-// Every LeadForm on the page listens; the CTA's href scrolls to the nearest one.
-export function requestLead({ intent, interest } = {}) {
-  window.dispatchEvent(new CustomEvent('lead-request', { detail: { intent, interest } }))
+// A typology button tells every LeadForm on the page which residence the visitor looked at
+export function requestLead({ interest } = {}) {
+  window.dispatchEvent(new CustomEvent('lead-request', { detail: { interest } }))
 }

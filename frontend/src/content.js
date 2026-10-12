@@ -27,16 +27,6 @@ export const DATA_CONTROLLER = {
   privacyEmail: null, // correo para derechos ARCO y revocación
 }
 
-// Sales gallery / showroom. The location block shows it only when set.
-export const SHOWROOM = null // e.g. { address: '…', hours: 'Lunes a sábado, 10:00 a 19:00', mapsUrl: 'https://…' }
-
-// What the visitor asks for. Stored as `intent` with the lead; prices are only ever sent one-to-one.
-export const INTENTS = [
-  { id: 'visita', label: 'Visita privada', button: 'Agendar mi visita', done: 'Un asesor te escribirá para acordar el día y la hora de tu visita.' },
-  { id: 'brochure', label: 'Brochure y planos', button: 'Recibir brochure y planos', done: 'Un asesor te enviará el brochure y los planos por WhatsApp.' },
-  { id: 'precios', label: 'Precios y disponibilidad', button: 'Recibir precios', done: 'Un asesor te enviará precios y disponibilidad actualizados por WhatsApp.' },
-]
-
 // Every answer comes from context/ACQUA_CONTEXT.md. Add new questions only with confirmed answers.
 export const FAQ = [
   ['¿Cuándo se entrega Torre Acqua?', 'La entrega estimada es en 2029.'],
@@ -207,6 +197,8 @@ export const TYPOLOGIES = [
 export const LOCATION = {
   address: 'Camino al Mirador 5800, Monterrey, N.L.',
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Camino+al+Mirador+5800+Monterrey+Nuevo+Leon',
+  // Keyless Google Maps embed (iframe in the location scene)
+  embedUrl: 'https://maps.google.com/maps?q=Camino+al+Mirador+5800,+Monterrey,+N.L.&z=14&output=embed',
   nearby: ['Valle Oriente', 'San Pedro Garza García', 'Tecmilenio Las Torres', 'Parque Rufino Tamayo', 'Hospital Zambrano Hellion', 'Club Campestre', 'UANL Mederos'],
 }
 

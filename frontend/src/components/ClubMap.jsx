@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { CLUB_MAP } from '../content.js'
-import { requestLead } from '../track.js'
 
 const src = (w) => `/img/renders/${CLUB_MAP.image.file}-${w}.webp`
 
@@ -51,7 +50,7 @@ export default function ClubMap() {
               </li>
             ))}
           </ol>
-          <a href="#contacto" className="btn btn-light" onClick={() => requestLead({ intent: 'visita' })}>Agendar visita al club</a>
+          <a href="#contacto" className="btn btn-light">Agendar visita al club</a>
         </div>
       </div>
     </section>

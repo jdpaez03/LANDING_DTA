@@ -1,9 +1,20 @@
 import { useEffect, useId, useState } from 'react'
-import { INTENTS, PRIVACY_URL, PRIVACY_VERSION, TYPOLOGIES } from '../content.js'
+import { PRIVACY_URL, PRIVACY_VERSION } from '../content.js'
 import { track } from '../track.js'
 import { trackWhatsapp, whatsappUrl } from '../whatsapp.js'
 
-const EMPTY = { name: '', phone: '', email: '', message: '', privacy: false, website: '' }
+const EMPTY = { name: '', phone: '', email: '', privacy: false, website: '' }
+const SAVED_KEY = 'acqua-lead'
+
+// Once a visitor leaves their data in any form, the other forms on the page thank them instead
+// of asking again (per tab; storage can be unavailable, so every access is guarded)
+function savedName() {
+  try { return sessionStorage.getItem(SAVED_KEY) || '' } catch { return '' }
+}
+function rememberLead(firstName, source) {
+  try { sessionStorage.setItem(SAVED_KEY, firstName) } catch { /* not critical */ }
+  window.dispatchEvent(new CustomEvent('lead-saved', { detail: { firstName, source } }))
+}
 
 // Campaign attribution from the landing URL (?utm_source=...&utm_medium=...&utm_campaign=...)
 function readUtm() {
@@ -11,102 +22,84 @@ function readUtm() {
   return { utm_source: p.get('utm_source'), utm_medium: p.get('utm_medium'), utm_campaign: p.get('utm_campaign') }
 }
 
-async function post(url, method, body) {
-  const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
-  if (!res.ok) {
-    const err = new Error(res.status === 422
-      ? 'Revisa tu correo y tu número de WhatsApp.'
-      : 'No pudimos enviar tus datos. Intenta de nuevo en un momento.')
-    err.status = res.status
-    throw err
-  }
-  return res.json()
-}
-
-// Step 1: what they want + name, WhatsApp, email (+ message in the full variant).
-// Step 2 (optional): typology, purpose, broker, best time to call. Then a thank-you.
-export default function LeadForm({ variant = 'full', location }) {
+// Data capture only: name, WhatsApp and email, then a thank-you. Every form on the page is this one.
+export default function LeadForm({ location }) {
   const uid = useId()
   const id = (n) => `${uid}-${n}`
-  const [step, setStep] = useState('contact') // contact | qualify | done
-  const [intent, setIntent] = useState('visita')
+  const [step, setStep] = useState(() => (savedName() ? 'known' : 'contact')) // contact | done | known
   const [interest, setInterest] = useState('')
   const [form, setForm] = useState(EMPTY)
-  const [qualify, setQualify] = useState({ purpose: '', is_broker: '', contact_time: '' })
-  const [publicId, setPublicId] = useState(null)
-  const [firstName, setFirstName] = useState('')
+  const [firstName, setFirstName] = useState(savedName)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
-  // A CTA elsewhere on the page can preselect the intent and/or typology
   useEffect(() => {
-    const onRequest = (e) => {
-      if (e.detail.intent) setIntent(e.detail.intent)
-      if (e.detail.interest) setInterest(e.detail.interest)
+    // A typology button (Residences) tells the forms which residence they looked at
+    const onRequest = (e) => { if (e.detail.interest) setInterest(e.detail.interest) }
+    // Another form on the page already has their data
+    const onSaved = (e) => {
+      if (e.detail.source === uid) return
+      setFirstName(e.detail.firstName)
+      setStep((s) => (s === 'contact' ? 'known' : s))
     }
     window.addEventListener('lead-request', onRequest)
-    return () => window.removeEventListener('lead-request', onRequest)
+    window.addEventListener('lead-saved', onSaved)
+    return () => {
+      window.removeEventListener('lead-request', onRequest)
+      window.removeEventListener('lead-saved', onSaved)
+    }
   }, [])
 
   const update = (e) => {
     const { name, type, checked, value } = e.target
     setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
   }
-  const chosen = INTENTS.find((i) => i.id === intent)
 
-  async function sendContact(e) {
+  async function send(e) {
     e.preventDefault()
     setBusy(true)
     setError('')
     try {
-      const out = await post('/api/leads', 'POST', {
-        name: form.name.trim(),
-        phone: form.phone.trim(),
-        email: form.email.trim(),
-        intent,
-        interest: interest || null,
-        message: form.message.trim() || null,
-        privacy_accepted: form.privacy,
-        privacy_version: PRIVACY_VERSION,
-        website: form.website || null,
-        form_location: location,
-        ...readUtm(),
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          phone: form.phone.trim(),
+          email: form.email.trim(),
+          interest: interest || null,
+          privacy_accepted: form.privacy,
+          privacy_version: PRIVACY_VERSION,
+          website: form.website || null,
+          form_location: location,
+          ...readUtm(),
+        }),
       })
-      track('generate_lead', { form_location: location, intent, interest: interest || 'sin definir' })
-      setPublicId(out.public_id)
-      setFirstName(form.name.trim().split(/\s+/)[0])
-      setStep('qualify')
-    } catch (err) {
-      setError(err.status ? err.message : 'Sin conexión. Revisa tu internet e intenta de nuevo.')
+      if (!res.ok) {
+        setError(res.status === 422
+          ? 'Revisa tu correo y tu número de WhatsApp.'
+          : 'No pudimos enviar tus datos. Intenta de nuevo en un momento.')
+        return
+      }
+      track('generate_lead', { form_location: location, interest: interest || 'sin definir' })
+      const first = form.name.trim().split(/\s+/)[0]
+      setFirstName(first)
+      setStep('done')
+      rememberLead(first, uid)
+    } catch {
+      setError('Sin conexión. Revisa tu internet e intenta de nuevo.')
     } finally {
       setBusy(false)
     }
   }
 
-  async function sendQualify(e) {
-    e.preventDefault()
-    setBusy(true)
-    const body = {}
-    if (interest) body.interest = interest
-    if (qualify.purpose) body.purpose = qualify.purpose
-    if (qualify.is_broker) body.is_broker = qualify.is_broker === 'si'
-    if (qualify.contact_time) body.contact_time = qualify.contact_time
-    // Step 2 is a bonus: the lead is already saved, so a failure here never blocks the thank-you
-    try {
-      if (Object.keys(body).length) await post(`/api/leads/${publicId}`, 'PATCH', body)
-      track('lead_qualified', { form_location: location, ...body })
-    } catch { /* ignored on purpose */ }
-    setBusy(false)
-    setStep('done')
-  }
-
-  if (step === 'done') {
-    const wa = whatsappUrl(interest || chosen.label)
+  if (step !== 'contact') {
+    const wa = whatsappUrl(interest)
     return (
       <div className="lead-done" role="status">
-        <h3>Gracias, {firstName}.</h3>
-        <p>{chosen.done}</p>
-        {wa && (
+        <h3>Gracias{firstName ? `, ${firstName}` : ''}. Ya tenemos tus datos.</h3>
+        <p>Un asesor te escribirá por WhatsApp.</p>
+        {step === 'done' && wa && (
           <a className="btn btn-primary" href={wa} target="_blank" rel="noreferrer" onClick={() => trackWhatsapp(`${location}-gracias`)}>
             Escribir ahora por WhatsApp
           </a>
@@ -115,75 +108,8 @@ export default function LeadForm({ variant = 'full', location }) {
     )
   }
 
-  if (step === 'qualify') {
-    return (
-      <form className="lead-form" onSubmit={sendQualify} aria-labelledby={id('q-title')}>
-        <div className="lead-qualify-head full">
-          <h3 id={id('q-title')}>Listo, {firstName}. Ya tenemos tus datos.</h3>
-          <p>Si nos cuentas un poco más, tu asesor llega con la información correcta. Es opcional.</p>
-        </div>
-        <div className="field">
-          <label htmlFor={id('interest2')}>Residencia que te interesa</label>
-          <select id={id('interest2')} value={interest} onChange={(e) => setInterest(e.target.value)}>
-            <option value="">Aún no lo sé</option>
-            {TYPOLOGIES.map((t) => <option key={t.id} value={t.name}>{t.name}, {t.beds} recámaras</option>)}
-          </select>
-        </div>
-        <fieldset className="field">
-          <legend>La compra es para</legend>
-          <div className="choice-row">
-            {[['vivir', 'Vivir'], ['invertir', 'Invertir']].map(([v, l]) => (
-              <label key={v} className={`choice ${qualify.purpose === v ? 'on' : ''}`}>
-                <input type="radio" name={id('purpose')} value={v} checked={qualify.purpose === v}
-                  onChange={() => setQualify((q) => ({ ...q, purpose: v }))} />{l}
-              </label>
-            ))}
-          </div>
-        </fieldset>
-        <fieldset className="field">
-          <legend>Mejor horario para llamarte</legend>
-          <div className="choice-row">
-            {[['manana', 'Mañana'], ['tarde', 'Tarde'], ['noche', 'Noche']].map(([v, l]) => (
-              <label key={v} className={`choice ${qualify.contact_time === v ? 'on' : ''}`}>
-                <input type="radio" name={id('time')} value={v} checked={qualify.contact_time === v}
-                  onChange={() => setQualify((q) => ({ ...q, contact_time: v }))} />{l}
-              </label>
-            ))}
-          </div>
-        </fieldset>
-        <fieldset className="field">
-          <legend>¿Eres asesor inmobiliario?</legend>
-          <div className="choice-row">
-            {[['no', 'No'], ['si', 'Sí, soy broker']].map(([v, l]) => (
-              <label key={v} className={`choice ${qualify.is_broker === v ? 'on' : ''}`}>
-                <input type="radio" name={id('broker')} value={v} checked={qualify.is_broker === v}
-                  onChange={() => setQualify((q) => ({ ...q, is_broker: v }))} />{l}
-              </label>
-            ))}
-          </div>
-        </fieldset>
-        <div className="lead-actions full">
-          <button className="btn btn-primary" disabled={busy}>{busy ? 'Guardando…' : 'Terminar'}</button>
-          <button type="button" className="btn-text" onClick={() => setStep('done')}>Omitir</button>
-        </div>
-      </form>
-    )
-  }
-
   return (
-    <form className={`lead-form ${variant}`} onSubmit={sendContact}>
-      <fieldset className="intent full">
-        <legend>¿Qué te gustaría recibir?</legend>
-        <div className="intent-options">
-          {INTENTS.map((i) => (
-            <label key={i.id} className={`intent-option ${intent === i.id ? 'on' : ''}`}>
-              <input type="radio" name={id('intent')} value={i.id} checked={intent === i.id} onChange={() => setIntent(i.id)} />
-              {i.label}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
+    <form className="lead-form" onSubmit={send}>
       <div className="field">
         <label htmlFor={id('name')}>Nombre</label>
         <input id={id('name')} name="name" value={form.name} onChange={update} required minLength={2} autoComplete="name" />
@@ -193,26 +119,11 @@ export default function LeadForm({ variant = 'full', location }) {
         <input id={id('phone')} type="tel" name="phone" value={form.phone} onChange={update} required minLength={10}
           autoComplete="tel" inputMode="tel" placeholder="10 dígitos" />
       </div>
-      <div className={`field ${variant === 'compact' ? 'full' : ''}`}>
+      <div className="field">
         <label htmlFor={id('email')}>Correo</label>
         <input id={id('email')} type="email" name="email" value={form.email} onChange={update} required autoComplete="email" />
       </div>
-      {variant === 'full' && (
-        <div className="field">
-          <label htmlFor={id('interest')}>Residencia de interés</label>
-          <select id={id('interest')} value={interest} onChange={(e) => setInterest(e.target.value)}>
-            <option value="">Aún no lo sé</option>
-            {TYPOLOGIES.map((t) => <option key={t.id} value={t.name}>{t.name}, {t.beds} recámaras</option>)}
-          </select>
-        </div>
-      )}
-      {variant === 'full' && (
-        <div className="field full">
-          <label htmlFor={id('message')}>Mensaje <span className="optional">opcional</span></label>
-          <textarea id={id('message')} name="message" rows={3} value={form.message} onChange={update} />
-        </div>
-      )}
-      {variant === 'compact' && interest && (
+      {interest && (
         <p className="interest-note full">Residencia: <strong>{interest}</strong>
           <button type="button" className="btn-text" onClick={() => setInterest('')}>Quitar</button>
         </p>
@@ -234,7 +145,7 @@ export default function LeadForm({ variant = 'full', location }) {
       </label>
 
       {error && <p className="form-error full" role="alert">{error}</p>}
-      <button className="btn btn-primary full" disabled={busy}>{busy ? 'Enviando…' : chosen.button}</button>
+      <button className="btn btn-primary submit" disabled={busy}>{busy ? 'Enviando…' : 'Quiero que me contacten'}</button>
     </form>
   )
 }

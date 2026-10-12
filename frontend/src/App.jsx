@@ -7,8 +7,8 @@ import Community from './components/Community.jsx'
 import Residences from './components/Residences.jsx'
 import Filmstrip from './components/Filmstrip.jsx'
 import Developers from './components/Developers.jsx'
+import LeadStrip from './components/LeadStrip.jsx'
 import Faq from './components/Faq.jsx'
-import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 import MobileBar from './components/MobileBar.jsx'
 import FloorIndicator from './components/FloorIndicator.jsx'
@@ -20,7 +20,9 @@ import { LEGAL_URL, PRIVACY_URL } from './content.js'
 const PAGES = { [PRIVACY_URL]: PrivacyNotice, [LEGAL_URL]: LegalNotice }
 
 // Immersive sequence: full-screen scenes (render pinned, text scrolling over it) alternate with
-// calm editorial sections. Scrolling the page "climbs" the tower (FloorIndicator) up to the form.
+// calm editorial sections. Scrolling the page "climbs" the tower (FloorIndicator).
+// Short data-capture forms (LeadStrip) along the way, so nobody has to reach the end to leave their data;
+// the last one (#contacto) is where the Contacto button and the calls to action lead.
 export default function App() {
   const Page = PAGES[window.location.pathname.replace(/\/$/, '')]
   if (Page) return <Page />
@@ -36,14 +38,16 @@ export default function App() {
         <ClubScene />
         <ClubMap />
         <Community />
+        <LeadStrip id="form-comunidad" title="Conoce Torre Acqua de cerca." />
         <ViewScene />
         <Residences />
+        <LeadStrip id="form-residencias" title="¿Te interesa una residencia?" />
         <AmenitiesScene />
         <Filmstrip />
         <LocationScene />
+        <LeadStrip id="contacto" title="Hablemos." />
         <Developers />
         <Faq />
-        <Contact />
       </main>
       <Footer />
       <MobileBar />

@@ -64,7 +64,7 @@ export default function Residences() {
               </ol>
               {t.rooms.some(([, , o]) => o?.excluded) && <p className="fine">*No se suma al área total.</p>}
             </details>
-            <a href="#contacto" className="btn btn-primary" onClick={() => requestLead({ intent: 'precios', interest: t.name })}>
+            <a href="#form-residencias" className="btn btn-primary" onClick={() => requestLead({ interest: t.name })}>
               Recibir precio y disponibilidad
             </a>
             <p className="fine">Planos y áreas ilustrativos, sujetos a cambio sin previo aviso.</p>

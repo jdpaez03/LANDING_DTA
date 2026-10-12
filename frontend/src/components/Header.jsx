@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
-import { requestLead } from '../track.js'
 import { trackWhatsapp, whatsappUrl } from '../whatsapp.js'
 import Logo from './Logo.jsx'
 
+// Kept short on purpose: a few places to look, and every path ends at the form
 const NAV = [
   ['#club', 'Club Sonoma'],
   ['#residencias', 'Residencias'],
-  ['#amenidades', 'Amenidades'],
   ['#ubicacion', 'Ubicación'],
+  ['#equipo', 'Equipo'],
+  ['#contacto', 'Contacto'],
 ]
 
 // Dark full-screen areas the header floats over (transparent, ivory type); anything else gets a solid bar
@@ -41,7 +42,7 @@ export default function Header() {
       </nav>
       <div className="header-actions">
         {wa && <a className="link" href={wa} target="_blank" rel="noreferrer" onClick={() => trackWhatsapp('header')}>WhatsApp</a>}
-        <a href="#contacto" className={`btn btn-sm ${over ? 'btn-light' : 'btn-primary'}`} onClick={() => requestLead({ intent: 'visita' })}>
+        <a href="#contacto" className={`btn btn-sm ${over ? 'btn-light' : 'btn-primary'}`}>
           Agendar visita privada
         </a>
       </div>

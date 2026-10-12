@@ -1,24 +1,21 @@
 import { useEffect, useState } from 'react'
-import { requestLead } from '../track.js'
 import { trackWhatsapp, whatsappUrl } from '../whatsapp.js'
 
 // Fixed bottom bar on phones. Appears once the hero is out of view and hides
-// again when the final form is on screen, so it never covers a form.
+// again while any form is on screen, so it never covers one.
 export default function MobileBar() {
   const [show, setShow] = useState(false)
   const wa = whatsappUrl()
 
   useEffect(() => {
-    const hero = document.querySelector('.hero')
-    const final = document.querySelector('#contacto')
-    if (!hero || !final) return
-    const seen = { hero: true, final: false }
+    const hiders = [...document.querySelectorAll('.hero, .lead-strip')]
+    if (!hiders.length) return
+    const visible = new Set(hiders.filter((el) => el.matches('.hero')))
     const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { seen[e.target === hero ? 'hero' : 'final'] = e.isIntersecting })
-      setShow(!seen.hero && !seen.final)
+      entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)))
+      setShow(visible.size === 0)
     })
-    io.observe(hero)
-    io.observe(final)
+    hiders.forEach((el) => io.observe(el))
     return () => io.disconnect()
   }, [])
 
@@ -30,7 +27,7 @@ export default function MobileBar() {
           WhatsApp
         </a>
       )}
-      <a href="#contacto" className="btn btn-primary" tabIndex={tab} onClick={() => requestLead({ intent: 'visita' })}>
+      <a href="#contacto" className="btn btn-primary" tabIndex={tab}>
         Agenda tu visita
       </a>
     </div>

@@ -1,8 +1,5 @@
 import { AMENITY_RENDERS, LOCATION, RENDERS } from '../content.js'
-import { requestLead } from '../track.js'
 import Scene from './Scene.jsx'
-
-const visit = () => requestLead({ intent: 'visita' })
 
 export function OriginScene() {
   return (
@@ -61,7 +58,7 @@ export function AmenitiesScene() {
         node: <>
           <p className="beat-tag">Nivel 41</p>
           <h3 className="beat-title">Cinco cabanas privadas con terraza</h3>
-          <a href="#contacto" className="btn btn-light" onClick={visit}>Agendar visita privada</a>
+          <a href="#contacto" className="btn btn-light">Agendar visita privada</a>
         </>,
       },
     ]} />
@@ -74,6 +71,8 @@ export function LocationScene() {
       <>
         <h2 className="beat-title">Al pie de la Sierra. A minutos de todo.</h2>
         <p className="beat-text">{LOCATION.address}</p>
+        <iframe className="beat-map" src={LOCATION.embedUrl} title="Mapa: ubicación de Torre Acqua"
+          loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         <a href={LOCATION.mapsUrl} target="_blank" rel="noreferrer" className="link link-light">Abrir en Google Maps</a>
       </>,
       <>

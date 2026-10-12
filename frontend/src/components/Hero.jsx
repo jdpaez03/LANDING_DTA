@@ -1,5 +1,4 @@
 import { LEGAL_URL, PRELIMINARY_SHORT, RENDERS } from '../content.js'
-import { requestLead } from '../track.js'
 import Picture from './Picture.jsx'
 
 // Full-screen opening: the whole tower at dusk against the Sierra Madre, headline in ivory over the dark hillside
@@ -12,8 +11,8 @@ export default function Hero() {
         <h1 className="hero-title">La forma más pura de vivir.</h1>
         <p className="hero-lede">Cincuenta niveles al pie de la Sierra Madre. Monterrey.</p>
         <div className="hero-actions">
-          <a href="#contacto" className="btn btn-light" onClick={() => requestLead({ intent: 'visita' })}>Agendar visita privada</a>
-          <a href="#contacto" className="link link-light" onClick={() => requestLead({ intent: 'precios' })}>Recibir precios y planos</a>
+          <a href="#contacto" className="btn btn-light">Agendar visita privada</a>
+          <a href="#contacto" className="link link-light">Recibir precios y planos</a>
         </div>
         <p className="hero-note"><a href={LEGAL_URL}>{PRELIMINARY_SHORT}</a></p>
       </div>
