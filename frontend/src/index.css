@@ -103,7 +103,8 @@ button { font-family: inherit; color: inherit; }
 /* ---------- Hero: full screen ---------- */
 .hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; color: var(--ivory); background: var(--navy); }
 /* The tower sits just right of center in the portada render; keep it in frame on narrow screens */
-.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 53% 50%; animation: hero-in 2.4s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
+/* Anchored to the top like the landing: wide screens crop the forest, not the top of the tower */
+.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 53% 0; transform-origin: 50% 0; animation: hero-in 2.4s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
 @keyframes hero-in { from { transform: scale(1.08); opacity: 0.4; } }
 /* Light shade: the dark hillside already carries the headline; keep the sky and the lit facade vivid */
 .hero-shade { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(4, 52, 71, 0.6) 100%), linear-gradient(90deg, rgba(4, 52, 71, 0.45), transparent 45%); }
