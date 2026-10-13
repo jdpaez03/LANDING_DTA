@@ -67,6 +67,14 @@ A private preview runs on the Linux laptop behind Tailscale Funnel with username
 serves the built site and the API on one port (`STATIC_DIR`) and asks for HTTP Basic auth
 (`PREVIEW_USER` / `PREVIEW_PASSWORD`; `/api/health` stays open). Deploy with `bash deploy/deploy.sh`; details in [`deploy/README.md`](deploy/README.md).
 
+## Entry landing
+
+Campaign posts link to the root URL (`/`), which is a single screen: the tower render full screen and one card
+with the key facts (`LANDING_SPECS` in `content.js`), the short lead form (`form_location = landing`) and a
+"Conocer Torre Acqua" link to the full site at `/sitio` (`SITE_URL`). The link keeps the `?utm_...` parameters,
+and once a visitor leaves their data on the landing, the site's forms thank them instead of asking again.
+Component: `components/Landing.jsx`. Any unknown path also shows the landing.
+
 ## Legal pages
 
 | Path | Component | Content |
@@ -101,7 +109,7 @@ npm install
 npm run dev
 ```
 
-- Landing: http://localhost:5173
+- Landing: http://localhost:5173 (full site: http://localhost:5173/sitio)
 - API docs: http://localhost:8000/docs
 
 ## API

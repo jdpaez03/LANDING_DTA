@@ -14,6 +14,17 @@ export const CONTACT = {
 export const PRIVACY_URL = '/aviso-de-privacidad'
 export const LEGAL_URL = '/aviso-legal'
 
+// The root URL is the entry landing (what campaign posts link to); the full site lives here
+export const SITE_URL = '/sitio'
+
+// Key facts shown on the entry landing card
+export const LANDING_SPECS = [
+  { value: '50', label: 'Niveles' },
+  { value: '136', label: 'Residencias' },
+  { value: '109–385 m²', label: '2 a 4 recámaras' },
+  { value: '2029', label: 'Entrega estimada' },
+]
+
 // Version of the privacy notice; stored with every lead as proof of which text was accepted.
 // Bump it whenever the notice text changes.
 export const PRIVACY_VERSION = '2026-10-08-preliminar'

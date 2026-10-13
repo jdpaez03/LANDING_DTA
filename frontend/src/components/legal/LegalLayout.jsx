@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Logo from '../Logo.jsx'
 import Footer from '../Footer.jsx'
+import { SITE_URL } from '../../content.js'
 
 // Placeholder for data the legal team still has to provide; highlighted so it is never published by mistake
 export function Pending({ children }) {
@@ -17,10 +18,10 @@ export default function LegalLayout({ title, updated, children }) {
   return (
     <>
       <header className="legal-header">
-        <a href="/" className="brand" aria-label="Torre Acqua, volver al sitio">
+        <a href={SITE_URL} className="brand" aria-label="Torre Acqua, volver al sitio">
           <Logo variant="horizontal" height={32} />
         </a>
-        <a href="/" className="link">Volver al sitio</a>
+        <a href={SITE_URL} className="link">Volver al sitio</a>
       </header>
       <main className="legal">
         <p className="legal-status">Versión preliminar</p>
