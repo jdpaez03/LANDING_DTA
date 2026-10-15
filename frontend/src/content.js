@@ -17,6 +17,16 @@ export const LEGAL_URL = '/aviso-legal'
 // The root URL is the entry landing (what campaign posts link to); the full site lives here
 export const SITE_URL = '/sitio'
 
+// Pages of the full site, in menu and reading order (each one links on to the next)
+export const SITE_PAGES = [
+  { key: 'inicio', path: SITE_URL, label: 'Inicio' },
+  { key: 'club', path: `${SITE_URL}/club`, label: 'Club Sonoma' },
+  { key: 'residencias', path: `${SITE_URL}/residencias`, label: 'Torre Acqua' },
+  { key: 'ubicacion', path: `${SITE_URL}/ubicacion`, label: 'Ubicación' },
+  { key: 'equipo', path: `${SITE_URL}/equipo`, label: 'Equipo' },
+  { key: 'contacto', path: `${SITE_URL}/contacto`, label: 'Contacto' },
+]
+
 // Key facts shown on the entry landing card
 export const LANDING_SPECS = [
   { value: '50', label: 'Niveles' },

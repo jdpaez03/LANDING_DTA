@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import { PRIVACY_URL, PRIVACY_VERSION } from '../content.js'
-import { track } from '../track.js'
+import { campaign, track } from '../track.js'
 import { trackWhatsapp, whatsappUrl } from '../whatsapp.js'
 
 const EMPTY = { name: '', phone: '', email: '', privacy: false, website: '' }
@@ -14,12 +14,6 @@ function savedName() {
 function rememberLead(firstName, source) {
   try { sessionStorage.setItem(SAVED_KEY, firstName) } catch { /* not critical */ }
   window.dispatchEvent(new CustomEvent('lead-saved', { detail: { firstName, source } }))
-}
-
-// Campaign attribution from the landing URL (?utm_source=...&utm_medium=...&utm_campaign=...)
-function readUtm() {
-  const p = new URLSearchParams(window.location.search)
-  return { utm_source: p.get('utm_source'), utm_medium: p.get('utm_medium'), utm_campaign: p.get('utm_campaign') }
 }
 
 // Data capture only: name, WhatsApp and email, then a thank-you. Every form on the page is this one.
@@ -72,7 +66,7 @@ export default function LeadForm({ location }) {
           privacy_version: PRIVACY_VERSION,
           website: form.website || null,
           form_location: location,
-          ...readUtm(),
+          ...campaign(),
         }),
       })
       if (!res.ok) {

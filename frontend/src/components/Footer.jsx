@@ -1,4 +1,4 @@
-import { LEGAL, LEGAL_URL, LOCATION, PRELIMINARY_LONG, PRIVACY_URL } from '../content.js'
+import { LEGAL, LEGAL_URL, LOCATION, PRELIMINARY_LONG, PRIVACY_URL, SITE_PAGES } from '../content.js'
 import Logo from './Logo.jsx'
 
 export default function Footer() {
@@ -7,6 +7,9 @@ export default function Footer() {
       <div className="footer-inner">
         <Logo variant="principal" height={88} />
         <div className="footer-text">
+          <nav className="footer-pages" aria-label="Páginas del sitio">
+            {SITE_PAGES.map((p) => <a key={p.key} href={p.path}>{p.label}</a>)}
+          </nav>
           <p>Torre Acqua en Sonoma Club &amp; Residences</p>
           <p>{LOCATION.address}</p>
           <ul className="footer-links">

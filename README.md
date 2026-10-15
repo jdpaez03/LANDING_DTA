@@ -75,6 +75,13 @@ with the key facts (`LANDING_SPECS` in `content.js`), the short lead form (`form
 and once a visitor leaves their data on the landing, the site's forms thank them instead of asking again.
 Component: `components/Landing.jsx`. Any unknown path also shows the landing.
 
+## Site pages
+
+The full site is split into pages, one per menu entry (`SITE_PAGES` in `content.js`, content per page in `App.jsx`):
+`/sitio` (inicio), `/sitio/club`, `/sitio/residencias`, `/sitio/ubicacion`, `/sitio/equipo` and `/sitio/contacto`.
+Every page ends with the short form at `#contacto` (`form_location` = the page key) and a link on to the next page.
+Campaign parameters are kept in `sessionStorage` for the visit, so a lead left on any page keeps its attribution.
+
 ## Legal pages
 
 | Path | Component | Content |

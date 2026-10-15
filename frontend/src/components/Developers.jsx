@@ -1,10 +1,11 @@
 import { DEVELOPERS } from '../content.js'
 
-// Two independent developers, each with its own block and logo (linked to its site), split by a gold rule
-export default function Developers() {
+// Two independent developers, each with its own block and logo (linked to its site), split by a gold rule.
+// `title={null}` leaves the heading out when the page headline already says it.
+export default function Developers({ title = 'La suma de dos grandes desarrolladores. Una sola visión.' }) {
   return (
     <section id="equipo" className="developers">
-      <h2 className="title">La suma de dos grandes desarrolladores. Una sola visión.</h2>
+      {title && <h2 className="title">{title}</h2>}
       <div className="dev-pair">
         {DEVELOPERS.map((d) => (
           <article key={d.name} className="dev">
